@@ -1,0 +1,146 @@
+{% extends 'layout' %}
+
+{% block metatags %}
+    {{ parent() }}
+
+    {% if product.status == 'hidden' %}
+        <meta name="robots" content="noindex">
+    {% endif %}
+
+    <meta property="og:url" content="{{ product.full_url }}" />
+    <meta property="og:type" content="product" />
+    <meta property="og:title" content="{{ product.title|e('html') }}" />
+
+    {% if product.images %}
+        <meta property="og:image" content="{{ product.images[0] }}" />
+    {% endif %}
+
+    {% if product.description_short %}
+        <meta property="og:description" content="{{ product.description_short|e('html') }}" />
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div id="body-product" class="product-{{ product.id }}" data-controller="products" data-action="view">
+        <h2>{{ product.title }}</h2>
+
+        <ul id="product-images">
+            {% if product.images %}
+                {% if product.images|length > 1 %}
+                    {% for img in product.images %}
+                        <li>
+                            <a href="{{ img }}" id="img-{{ loop.index }}" rel="gallery" target="_blank">
+                                {% if loop.index == 1%}
+                                    <img src="{{ resizeImg(img, 300) }}" alt="{{ product.title|e('html') }}" />
+                                {% else %}
+                                    <img src="{{ resizeImg(img, 60, 60) }}" alt="{{ product.title|e('html') }}" />
+                                {% endif %}
+                            </a>
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    <li>
+                        <a href="{{ product.images[0] }}" id="img-1" target="_blank">
+                            <img src="{{ resizeImg(product.images[0], 300) }}" alt="{{ product.title|e('html') }}" />
+                        </a>
+                    </li>
+                {% endif %}
+            {% else %}
+                <li>
+                    <img class="no-image" src="/img/stores/blankimg300x300.gif" alt="{{ product.title|e('html') }}" />
+                </li>
+            {% endif %}
+        </ul>
+
+        <div id="product-details">
+            {% if product.out_of_stock and settings.hide_price_out_of_stock %}
+                <!-- nada aqui -->
+            {% else %}
+                <div id="product-price">
+                    {% set price = product.price %}
+                    {% if product.promo_price %}
+                        {% set price = product.promo_price %}
+                    {% endif %}
+
+                    {% if product.promo_price %}
+                        <span class="regular-price">R$ {{ product.price|number_format }}</span>
+                    {% endif %}
+
+                    <span class="currency">R$</span>
+                    <span class="value">{{ price|number_format }}</span>
+                </div>
+            {% endif %}
+
+            <div id="add-to-cart">
+                {% if store.open_cart %}
+                    {% if product.out_of_stock %}
+                        <div class="out-of-stock">
+                            Produto fora de estoque
+                        </div>
+                    {% else %}
+                        <form method="post" action="#" data-hook="add-to-cart">
+                            {% if product.variations|length > 1 %}
+                                <div id="product-variations">
+                                    {% set first = true %}
+
+                                    {% for variation in product.variations %}
+                                        {% if variation.quantity is same as (0) %}
+                                            <input id="cart-item-{{ variation.id }}" type="radio" value="{{ variation.id }}" name="item" disabled="disabled" />
+                                            <label for="cart-item-{{ variation.id }}">
+                                                {{ variation.description }} <small>(fora de estoque)</small>
+                                            </label>
+                                        {% else %}
+                                            <input id="cart-item-{{ variation.id }}" type="radio" value="{{ variation.id }}" name="item"{% if first %} checked="checked"{% endif %} />
+                                            <label for="cart-item-{{ variation.id }}">
+                                                {{ variation.description }}
+                                            </label>
+
+                                            {% if first %}{% set first = false %}{% endif %}
+                                        {% endif %}
+
+                                        {% if loop.last == false %}<br />{% endif %}
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {% if product.variations[0].description == 'Padrão' %}
+                                    <input id="cart-item-{{ product.variations[0].id }}" type="hidden" value="{{ product.variations[0].id }}" name="item" />
+                                {% else %}
+                                    <div id="product-variations">
+                                        <input id="cart-item-{{ product.variations[0].id }}" type="radio" value="{{ product.variations[0].id }}" name="item" checked="checked" />
+                                        <label for="{{ product.variations[0].id }}">
+                                            {{ product.variations[0].description }}
+                                        </label>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+
+                            <button type="submit">Adicionar ao carrinho</button>
+                        </form>
+                    {% endif %}
+                {% else %}
+                    <div class="vacation">
+                        Compras estão temporariamente desativadas!
+                    </div>
+                {% endif %}
+            </div>
+
+            <div id="product-description">
+                {{ product.description|raw }}
+            </div>
+
+            {% if product.tags %}
+                <div id="product-tags">
+                    <strong>Tags:</strong>
+
+                    {% for tag in product.tags %}
+                        <a href="{{ tag.link }}" title="{{ tag.tag|e('html') }}">{{ tag.tag }}</a>{% if loop.last == false %},{% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        {% if widgets.product %}
+            {{ renderWidgets('product') }}
+        {% endif %}
+    </div>
+{% endblock %}

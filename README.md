@@ -1,2 +1,3 @@
-# tema-default
-Tema padrão das lojas na plataforma Tanlup
+# Tema Default
+
+Este é o tema padrão das lojas na plataforma Tanlup!

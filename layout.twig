@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
+    <head>
+        {% block head %}
+            {% block metatags %}
+                <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+                <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+            {% endblock %}
+
+            {% if store.facebook_id %}
+                <meta property="fb:admins" content="{{ store.facebook_id }}" />
+            {% endif %}
+
+            <title>
+                {% if page.title %}{{ page.title }} - {% endif %}
+                {{ store.name }}
+            </title>
+
+            <link rel="stylesheet" type="text/css" href="/css/store.css" />
+            <link rel="stylesheet" type="text/css" href="/css/widgets.css" />
+            <link rel="stylesheet" type="text/css" href="/css/fancybox.css" />
+            <link rel="stylesheet" type="text/css" href="/css/nivo-slider.css" />
+            <link rel="stylesheet" type="text/css" href="/css/nivo-default.css" />
+
+            <!-- este é o css personalizado que você pode criar em seu painel -->
+            <link rel="stylesheet" type="text/css" href="/css/my.style.css" />
+
+            {% if store.favicon %}
+                <link rel="icon" type="{{ store.favicon.type }}" href="{{ store.favicon.path }}" />
+            {% endif %}
+        {% endblock %}
+    </head>
+
+    <body>
+        <div id="fb-root"></div>
+
+        <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/pt_BR/all.js#xfbml=1";
+        fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+
+        <div id="container">
+            {% block header %}
+                <div id="header">
+                    {% if widgets.header %}
+                        {{ renderWidgets('header') }}
+                    {% else %}
+                        {% if settings.headerImg %}
+                            <h1>{{ store.name }}</h1>
+
+                            <a href="{{ store.url }}" title="{{ store.name }}" class="header-img">
+                                <img src="{{ settings.headerImg }}" alt="{{ store.name }}" />
+                            </a>
+                        {% else %}
+                            <h1 clss="header-title">
+                                <a href="{{ store.url }}" title="{{ store.name }}">{{ store.name }}</a>
+                            </h1>
+                        {% endif %}
+
+                        <div id="breadcrumbs">
+                            {% set breadcrumbs = [] %}
+
+                            {% for breadcrumb in page.breadcrumbs %}
+                                {% set breadcrumbs = breadcrumbs|merge(['<a href="' ~ breadcrumb.link ~ '">' ~ breadcrumb.crumb ~ '</a>']) %}
+                            {% endfor %}
+
+                            {{ breadcrumbs|join(' &raquo; ')|raw }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                {% if store.notification %}
+                    <div id="notifications">
+                        <div class="vacation">
+                            {{ store.notification|nl2br }}
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if page.flashMessage %}
+                    <div class="message {{ page.flashMessage.type }}">
+                        {{ page.flashMessage.msg }}
+                    </div>
+                {% endif %}
+
+                <div id="end-header">&nbsp;</div>
+            {% endblock %}
+
+            <div id="body">
+                {% block content %}{% endblock %}
+            </div>
+
+            <div id="end-body">&nbsp;</div>
+
+            {% block sidebar %}
+                <div id="sidebar">
+                    {% if widgets.sidebar %}
+                        {{ renderWidgets('sidebar') }}
+                    {% else %}
+                        <div id="sidebar-search">
+                            <h2>Busca</h2>
+
+                            <form id="search-form" action="/search" method="post">
+                                <label for="search-therm">Termo de busca</label>
+                                <input type="text" name="data[Product][term]" id="search-term" />
+                                <button id="search-form-submit" type="submit">Buscar</button>
+                            </form>
+                        </div>
+
+                        <div id="sidebar-categories">
+                            <h2>Categorias</h2>
+
+                            <ul id="categories-list">
+                                <li id="li-cat-all"><a id="cat-all" href="/products">Todos</a></li>
+
+                                {% if store.categories %}
+                                    {% for category in store.categories %}
+                                        <li id="li-cat-{{ category.slug }}"{% if category.children %} class="has-children"{% endif %}>
+                                            <a id="cat-{{ category.slug }}" href="{{ category.link }}">{{ category.name }}</a>
+
+                                            {% if category.children %}
+                                                <ul class="cat-children">
+                                                    {% for child in category.children %}
+                                                        <li id="li-cat-{{ child.slug }}"><a id="cat-{{ child.slug }}" href="{{ child.link }}">{{ child.name }}</a></li>
+                                                    {% endfor %}
+                                                </ul>
+                                            {% endif %}
+                                        </li>
+                                    {% endfor %}
+                                {% endif %}
+
+                                <li id="li-cat-savings"><a id="cat-savings" href="/category/savings">Em promoção</a></li>
+                                <li id="li-cat-out-of-stock"><a id="cat-out-of-stock" href="/category/out-of-stock">Fora de estoque</a></li>
+                            </ul>
+                        </div>
+
+                        <div id="sidebar-info">
+                            <h2>Info</h2>
+
+                            <ul id="info-list">
+                                {% if store.pages %}
+                                    {% for page in store.pages %}
+                                        <li id="li-info-{{ page.slug }}">
+                                            <a href="{{ page.link }}" title="{{ page.title|e }}" id="info-{{ page.slug }}"{% if page.type == 'external'%} target="_blank"{% endif %}>
+                                                {{ page.title }}
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                {% endif %}
+
+                                <li id="li-info-contato"><a href="/contact" title="Contato" id="info-contato" data-hook="contact">Contato</a></li>
+                            </ul>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endblock %}
+
+            <div id="end-sidebar">&nbsp;</div>
+
+            {% block footer %}
+                <div id="footer">
+                    {% if widgets.footer %}
+                        {{ renderWidgets('footer') }}
+                    {% else %}
+                        {{ store.name }} {{ 'now'|date('Y') }} &copy;
+                    {% endif %}
+                </div>
+            {% endblock %}
+
+            <div id="end-footer">&nbsp;</div>
+        </div>
+
+        <div id="cart-alert">
+            <div class="cart-alert">
+                <p>Este produto foi adicionado ao carrinho com sucesso!</p>
+
+                <ul class="actions">
+                    <li><a href="{{ store.checkout_url }}?source=store">ver carrinho</a></li>
+                    <li><a href="javascript:void(0)" onclick="$.fancybox.close();">continuar comprando</a></li>
+                </ul>
+            </div>
+        </div>
+
+        {{ loadJs() }}
+
+        <script src="/js/fancybox.js"></script>
+        <script src="/js/main.js"></script>
+
+        {% if store.ga %}
+            <script>
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+                ga('create', '{{ store.ga }}', 'auto');
+                ga('send', 'pageview');
+            </script>
+        {% endif %}
+    </body>
+</html>

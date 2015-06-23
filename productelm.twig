@@ -1,0 +1,24 @@
+<li id="product-{{ loop.index }}" class="product-container">
+    <a href="{{ product.link }}" title="{{ product.title|e('html') }}" class="product-image-link">
+        {% if product.images is empty %}
+            <img src="/img/stores/blankimg190x190.gif" alt="{{ product.title|e('html') }}" width="190" height="190" />
+        {% else %}
+            <img src="{{ resizeImg(product.images[0], 190, 190) }}" alt="{{ product.title|e('html') }}" width="190" height="190" />
+        {% endif %}
+    </a>
+    <div class="product-details">
+        <a href="{{ product.link }}" title="{{ product.title|e('html') }}" class="product-text-link">{{ product.title|truncate }}</a>
+        <div class="product-price">
+            {% if product.out_of_stock %}
+                <span class="out-of-stock">Fora de estoque</span>
+            {% else %}
+                {% if product.promo_price %}
+                    <del>R$ {{ product.price|number_format }}</del>
+                    R$ {{ product.promo_price|number_format }}
+                {% else %}
+                    R$ {{ product.price|number_format }}
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</li>

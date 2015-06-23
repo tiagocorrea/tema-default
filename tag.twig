@@ -1,0 +1,17 @@
+{% extends "layout" %}
+
+{% block content %}
+    <div id="body-products">
+        {% if products %}
+            <ul id="products-list">
+                {% for product in products %}
+                    {% include 'productelm' %}
+                {% endfor %}
+            </ul>
+
+            {{ paginate() }}
+        {% else %}
+            <div class="notice">Não foram encontrados produtos.</div>
+        {% endif %}
+    </div>
+{% endblock %}

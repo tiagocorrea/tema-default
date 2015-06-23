@@ -1,0 +1,15 @@
+{% extends 'layout' %}
+
+{% block content %}
+    <div id="body-page">
+        <h2>Contato</h2>
+
+        <div id="page-contact">
+            {% if store.contact_info %}
+                <p>{{ store.contact_info|e|nl2br }}</p>
+            {% endif %}
+
+            {{ renderContactForm() }}
+        </div>
+    </div>
+{% endblock %}

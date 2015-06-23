@@ -1,0 +1,11 @@
+{% extends "layout" %}
+
+{% block content %}
+    <div id="body-page">
+        <h2>{{ page.name }}</h2>
+
+        <div id="page-{{ page.slug }}">
+            {{ page.content|raw }}
+        </div>
+    </div>
+{% endblock %}
