@@ -19,7 +19,7 @@ assim, simples.
 
 **Hey, você já é um expert?** Então talvez você queira pular esta seção e ir
 direto para a parte onde a gente te passa todos os detalhes de nosso sistema.
-Clica [aqui](#algumlugar)! Se este não for o caso, ótimo! A seguir você encontra
+Clica [aqui](#sintaxe)! Se este não for o caso, ótimo! A seguir você encontra
 uma boa introdução ao sistema ensinando os principais conceitos.
 
 Antes de começar é importante deixar claro que será necessário ter conhecimentos
@@ -169,11 +169,10 @@ template sendo estendido. Assim:
 Tudo o que estiver entre `{% block content%}` e `{% endblock %}` será injetado
 no bloco com o mesmo nome em `layout`.
 
-**Dica**: Veja que o nome do bloco na verdade não importa. Por convenção
-usamos "content" para definir o bloco de conteúdo principal, mas teoricamente
-o nome deste bloco pode ser qualquer coisa. Também é possível definir multiplos
-blocos em seu layout padrão. De fato, nosso tema padrão faz isso. Você pode
-conferir isto
+Veja que o nome do bloco na verdade não importa. Por convenção usamos "content"
+para definir o bloco de conteúdo principal, mas teoricamente o nome deste bloco
+pode ser qualquer coisa. Também é possível definir multiplos blocos em seu
+layout padrão. De fato, nosso tema padrão faz isso. Você pode conferir isto
 [aqui](https://github.com/tanlup/tema-default/blob/master/layout.twig#L4).
 Apesar disto, recomendamos que o nome do bloco principal sempre seja "content"
 para não haver qualquer confusão. Fica a dica!
