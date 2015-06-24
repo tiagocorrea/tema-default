@@ -4,24 +4,29 @@ support [at] tanlup [dot] com._
 
 # Tema Default
 
-Este é o tema padrão das lojas na plataforma Tanlup!
+Este é o tema padrão das lojas do Tanlup!
 
-## Então você quer fazer um tema diferente para sua loja?
+Ele é usado em todas as lojas da plataforma e pode ser totalmente alterado ou
+estendido. Neste documento você pode aprender como fazer isto!
 
 Através de nosso novo sistema de personalização de lojas você pode acessar não
 apenas o CSS do tema padrão, mas alterar totalmente o HTML de sua loja usando
 uma linguagem de template simples e prática. Tentamos tirar do seu caminho
-qualquer complicação para que a personalização possa ser profunda mas ainda assim,
-simples.
+qualquer complicação para que a personalização possa ser profunda mas ainda
+assim, simples.
 
-## Começando
+# Primeiros passos
+
+**Hey, você já é um expert?** Então talvez você queira pular esta seção e ir
+direto para a parte onde a gente te ensina todos os detalhes de nosso sistema.
+Clica [aqui](#algumlugar)!
 
 Antes de começar é importante deixar claro que será necessário ter conhecimentos
 mínimos nas seguintes tecnologias:
 
-- HTML
-- CSS
-- JavaScript
+- [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML)
+- [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS)
+- [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 
 Através destas tecnologias você será capaz de transformar o tema de sua loja de
 forma completa, alcançando os objetivos estéticos e funcionais que desejar.
