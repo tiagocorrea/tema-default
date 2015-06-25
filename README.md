@@ -197,9 +197,9 @@ Em resumo a linguagem é formada por **variáveis**, **filtros**, **tags** e
 de sua loja ou o nome de um produto.
 - **Filtros** são pequenas funções que realizam algum tipo de alteração em
 variáveis. Eles também serve para extrair informações de variáveis específicas.
-- **Tags** fornecem métodos de controle do conteúdo e lógica de seus templates.
 - **Funções** te permitem executar uma determinada tarefa ou gerar algum tipo
 de conteúdo.
+- **Tags** fornecem métodos de controle do conteúdo e lógica de seus templates.
 
 ## Variáveis
 
@@ -244,3 +244,114 @@ R$ 123.4
 
 Existem muitos outros filtros que te permitem fazer alterações diferentes. Vamos
 explicar cada uma delas mais à frente.
+
+## Funções
+
+Com funções você consegue gerar algum tipo de conteúdo específico de forma
+prática. Veja:
+
+{{ renderContactForm() }}
+
+Veja que a sintaxe é muito similar à de você imprimir uma variável na tela,
+porém você precisa colocar os parênteses ao final do nome da função. A função
+acima irá renderizar todo um formulário de contato na tela. Em algumas funções
+é possível passar alguns parâmetros dentro dos parênteses.
+
+## Tags
+
+Talvez uma das partes mais importantes da sintaxe de nossa linguagem de template
+sejam as tags. Através dela você consegue controlar o fluxo e a estrutura de
+seus arquivos. Vamos dar uma olhada mais profunda em alguns tipos principais de
+tags.
+
+### if ... else
+
+Uma das principais formas de controlar a lógica e fluxo de seu template é usando
+a tag `if`. Veja um exemplo:
+
+```twig
+{% if store.notification %}
+    <div id="notifications">{{ store.notification }}</div>
+{% endif %}
+```
+
+Se você percebeu, já temos uma diferença interessante em como chamamos as tags.
+Veja que ao invés de usarmos dois colchetes `{{ ... }}` como nas variáveis, nós
+usamos `{% ... %}`. Isto porque tags em geral são instruções e não imprimem
+nada na tela. É um jeito fácil da gente identificar uma coisa ou outra.
+
+O que o código acima faz é verificar se a variável `store.notification` está
+definida ou tem um valor positivo. Se sim, ele vai mostrar o conteúdo da
+notificação. Caso contrário, nada acontece. Mas e se a gente quiser mostrar
+uma outra mensagem no lugar da notificação se ela não existir?
+
+```twig
+{% if store.notification %}
+    <div id="notifications">{{ store.notification }}</div>
+{% else %}
+    <div>Nada por aqui...</div>
+{% endif %}
+```
+
+Neste caso, usamos o `else` para definir algum conteúdo se a primeira condição
+não for verdadeira. Ou seja, se não houver notificação a gente mostra a mensagem
+"Nada por aqui..." dentro de um elemento *div*.
+
+O funcionamento é basicamente este. Se você quiser se aprofundar vale sempre a
+pena dar uma olhada na documentação oficial do Twig a respeito desta tag
+[aqui](http://twig.sensiolabs.org/doc/tags/if.html) (em inglês).
+
+### for
+
+Cada variável em nosso templates é um tipo de dado diferente: um texto, um
+número, assim por diante. Eventualmente algumas destas variáveis serão de um
+tipo que chamamos de arrays ou vetores. Pense neles como uma caixa onde você
+pode colocar um monte de outros dados. Eu sei... É meio vago, mas eu garanto que
+tudo isso vai fazer sentido quando a gente começar a explorar melhor as
+variáveis.
+
+O importante aqui é entender que com a tag `for` você pode iterar pelos
+elementos de um vetor e realizar ações com cada um deles. Vamos ver um exemplo:
+
+```twig
+<ul id="categories-list">
+    {% for category in store.categories %}
+        <li id="li-cat-{{ category.slug }}">
+            <a id="cat-{{ category.slug }}" href="{{ category.link }}">{{ category.name }}</a>
+        </li>
+    {% endfor %}
+</ul>
+```
+
+Neste caso a variável `store.categoires` é um vetor com outros elementos dentro
+dele. Usando a tag `for` a gente passa por cada um destes elementos, que agora
+serão atribuidos a uma variável "temporária" chamada `category`. Dentro do `for`
+então eu posso manipular estes elementos como qualquer outra variável, usando
+inclusive filtros se necessário.
+
+Este é seu funcionamento básico e já deve ser suficiente pra você realizar
+tarefas complexas em seu template, mas a tag `for` é bem poderosa por isso vale
+a pena estudar todas as suas possibilidades na documentação original
+[aqui](http://twig.sensiolabs.org/doc/tags/for.html) (em inglês).
+
+# Referência
+
+Agora que você jpa conhece todos os principais elementos que podem constituir
+seu template vamos tentar explicar mais à fundo exatamente quais são estes
+elementos e seu funcionamento.
+
+## Variáveis
+
+...
+
+## Filtros
+
+...
+
+## Funções
+
+...
+
+## Tags
+
+...
