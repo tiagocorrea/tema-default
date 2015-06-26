@@ -20,7 +20,7 @@ assim, simples.
 **Hey, você já é um expert?** Então talvez você queira pular esta seção e ir
 direto para a parte onde a gente te passa todos os detalhes de nosso sistema.
 Clica [aqui](#sintaxe)! Se este não for o caso, ótimo! A seguir você encontra
-uma boa introdução ao sistema ensinando os principais conceitos.
+uma boa introdução ao sistema, ensinando os principais conceitos.
 
 Antes de começar é importante deixar claro que será necessário ter conhecimentos
 mínimos nas seguintes tecnologias:
@@ -38,22 +38,26 @@ adotar uma linguagem de templates muito prática e simples de usar chamada
 a linguagem e aprender direto da fonte, visite a documentação
 [aqui](http://twig.sensiolabs.org/doc/templates.html) (em inglês). É importante
 notar que alguns recursos da linguagem são limitados em nosso ambiente e este
-documento especifica quais são estas limitações e possíveis diferenças entre a
-biblioteca e nosso ambiente. Sempre que tiver dúvidas, fique à vontade para
-entrar em contato com nossa equipe de suporte.
+documento especifica quais são estas limitações e possíveis diferenças entre o
+que o Twig oferece e o que está disponível em nosso ambiente. Sempre que tiver
+dúvidas, fique à vontade para entrar em contato com nossa equipe de suporte.
 
 Tendo dito isto, **por onde começar?**
 
 ## Entendendo a estrutura
 
 Uma loja é formada por diversas páginas. Temos uma página para a home, outra
-para as listagens de categorias. Uma para a página de produto e outra para as
+para as listagens de categorias. Uma para a página de produto, outra para as
 páginas de conteúdos avulsos e por aí vai. Para cada página destas temos um
 template diferente em nosso sistema e cada template fica em um arquivo
 específico. Além dos arquivos de cada página temos um template "master" chamado
 layout. Ao invés de carregar as informações de cada página, é este layout que
 organiza onde estes conteúdos serão renderizados, funcionando como um template
-padrão para todos os outros templates. A estrutura dos arquivos então é assim:
+padrão para todos os outros templates. Imagine que cada template é como uma
+fotografia e o layout é um porta-retratos. Independentemente da foto que foi
+colocada no porta-retratos, ele não se altera. É mais ou menos isso!
+
+A estrutura dos arquivos é assim:
 
 Arquivo | Descrição
 --------|----------
@@ -125,7 +129,7 @@ linha:
 <div>{% block content %}{% endblock %}</div>
 ```
 
-O que este pedaço de código esta dizendo é que, qualquer outro template que
+O que este pedaço de código esta dizendo é que qualquer outro template que
 estenda este template poderá suprir o conteúdo necessário a ser injetado dentro
 deste bloco. Estamos definindo uma área que, de certa forma, pode ser
 sobrescrita em templates que estendam o `layout`.
@@ -250,7 +254,9 @@ explicar cada uma delas mais à frente.
 Com funções você consegue gerar algum tipo de conteúdo específico de forma
 prática. Veja:
 
+```twig
 {{ renderContactForm() }}
+```
 
 Veja que a sintaxe é muito similar à de você imprimir uma variável na tela,
 porém você precisa colocar os parênteses ao final do nome da função. A função
@@ -283,7 +289,8 @@ nada na tela. É um jeito fácil da gente identificar uma coisa ou outra.
 O que o código acima faz é verificar se a variável `store.notification` está
 definida ou tem um valor positivo. Se sim, ele vai mostrar o conteúdo da
 notificação. Caso contrário, nada acontece. Mas e se a gente quiser mostrar
-uma outra mensagem no lugar da notificação se ela não existir?
+uma outra mensagem no lugar da notificação caso ela não exista ou não esteja
+definida?
 
 ```twig
 {% if store.notification %}
@@ -305,7 +312,7 @@ pena dar uma olhada na documentação oficial do Twig a respeito desta tag
 
 Cada variável em nosso templates é um tipo de dado diferente: um texto, um
 número, assim por diante. Eventualmente algumas destas variáveis serão de um
-tipo que chamamos de arrays ou vetores. Pense neles como uma caixa onde você
+tipo que chamamos de arrays ou vetores. Pense neles como uma fila onde você
 pode colocar um monte de outros dados. Eu sei... É meio vago, mas eu garanto que
 tudo isso vai fazer sentido quando a gente começar a explorar melhor as
 variáveis.
@@ -323,8 +330,8 @@ elementos de um vetor e realizar ações com cada um deles. Vamos ver um exemplo
 </ul>
 ```
 
-Neste caso a variável `store.categoires` é um vetor com outros elementos dentro
-dele. Usando a tag `for` a gente passa por cada um destes elementos, que agora
+Neste caso a variável `store.categories` é um vetor com outros elementos dentro
+dele. Usando a tag `for` a gente passa por cada um destes elementos que agora
 serão atribuidos a uma variável "temporária" chamada `category`. Dentro do `for`
 então eu posso manipular estes elementos como qualquer outra variável, usando
 inclusive filtros se necessário.
@@ -336,13 +343,62 @@ a pena estudar todas as suas possibilidades na documentação original
 
 # Referência
 
-Agora que você jpa conhece todos os principais elementos que podem constituir
+Agora que você já conhece todos os principais elementos que podem constituir
 seu template vamos tentar explicar mais à fundo exatamente quais são estes
 elementos e seu funcionamento.
 
 ## Variáveis
 
-...
+Aqui você tem uma referência completa de todas as variáveis disponíveis para
+manipulação em sua loja.
+
+### store
+
+Contém informações globais a respeito de sua loja.
+
+***Disponível em todas as páginas.***
+
+Variável | Descrição
+---------|----------
+store.name | O nome de sua loja.
+store.logo | O endereço da imagem do logo de sua loja, se existente.
+store.favicon.path | Endereço da imagem de seu favicon.
+store.favicon.type | MIME Type da imagem de seu favicon. Útil na hora de incluí-lo em sua página.
+store.description | Descrição completa de sua loja.
+store.description_short | Descrição reduzida de sua loja.
+store.url | O endereço completo de sua loja.
+store.checkout_url | O endereço da página de carrinho/checkout de sua loja.
+store.open_cart | Define se é possível ou não adicionar produtos ao carrinho de sua loja. Pode estar bloqueado no caso do modo de férias estar habilitado ou por razões internas do sistema.
+store.notification | Texto de notificação. Geralmente definido quando o modo de férias está ativo.
+store.ga | Código de rastreio do Google Analytics.
+store.facebook_id | Id do usuário ou página do Facebook.
+store.contact_info | Informações de contato da loja.
+store.categories | Vetor contendo informações de todas as categorias da loja.
+store.pages | Vetor contendo informações de todas as páginas de conteúdo da loja.
+
+#### store.categories
+
+Iterando pela variável `store.categories` você tem acesso a estas variáveis:
+
+Variável | Descrição
+---------|----------
+category.id | Número de identificação da categoria. Único em toda a loja.
+category.name | Nome da categoria.
+category.slug | Slug da categoria, uma representação textual mais simples do nome da categoria.
+category.link | Endereço que leva para a página desta categoria.
+category.children | Array que abriga categorias filhas desta categoria. Reproduz a mesma estrutura de variáveis das categorias mães.
+
+#### store.pages
+
+Iterando pela variável `store.pages` você tem acesso a estas variáveis:
+
+Variável | Descrição
+---------|----------
+page.id | Número de identificação da página. Único em toda a loja.
+page.title | Título da página.
+page.slug | Slug da página, uma representação textual mais simples do título da página.
+page.link | Link para esta página em específico dentro da loja.
+page.type | Tipo de página. Pode ser `internal` ou `external`. Se for `internal` designa uma página de conteúdo interno. Se for `external` designa um link externo. Apropriado para tratar com os links devem se comportar nas páginas.
 
 ## Filtros
 
