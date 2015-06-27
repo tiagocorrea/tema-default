@@ -9,7 +9,7 @@ Este é o tema padrão das lojas do Tanlup!
 Ele é usado em todas as lojas da plataforma e pode ser totalmente alterado ou
 estendido. Neste documento você pode aprender como fazer isto!
 
-Através de nosso novo sistema de personalização de lojas você pode acessar não
+Através do nosso novo sistema de personalização de lojas você pode acessar não
 apenas o CSS do tema padrão, mas alterar totalmente o HTML de sua loja usando
 uma linguagem de template simples e prática. Tentamos tirar do seu caminho
 qualquer complicação para que a personalização possa ser profunda mas ainda
@@ -310,7 +310,7 @@ pena dar uma olhada na documentação oficial do Twig a respeito desta tag
 
 ### for
 
-Cada variável em nosso templates é um tipo de dado diferente: um texto, um
+Cada variável nos nossos templates é um tipo de dado diferente: um texto, um
 número, assim por diante. Eventualmente algumas destas variáveis serão de um
 tipo que chamamos de arrays ou vetores. Pense neles como uma fila onde você
 pode colocar um monte de outros dados. Eu sei... É meio vago, mas eu garanto que
@@ -386,7 +386,7 @@ category.id | Número de identificação da categoria. Único em toda a loja.
 category.name | Nome da categoria.
 category.slug | Slug da categoria, uma representação textual mais simples do nome da categoria.
 category.link | Endereço que leva para a página desta categoria.
-category.children | Array que abriga categorias filhas desta categoria. Reproduz a mesma estrutura de variáveis das categorias mães.
+category.children | Vetor que abriga categorias filhas desta categoria. Reproduz a mesma estrutura de variáveis das categorias mães.
 
 #### store.pages
 
